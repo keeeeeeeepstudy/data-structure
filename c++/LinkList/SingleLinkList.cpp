@@ -56,6 +56,7 @@ class LinkList{
                 head = newNode;
             }
         }
+        //打印链表
         void printList(){
             LinkNode* temp = head;
             while (temp != nullptr){
@@ -63,6 +64,70 @@ class LinkList{
                 temp = temp->Next;
             }
             cout<<"nullptr\n";
+        }
+        //链表长度
+        int len(){
+            LinkNode* temp = head;
+            int length = 0;
+            while (temp != nullptr){
+                length++;
+                temp = temp->Next;
+            }
+            return length;
+        }
+        //插入节点
+        void Insert(int val,int n){
+            LinkNode* newNode = new LinkNode(val);
+            int length = len();
+            if (n==1){//头节点插入
+                newNode->Next = head;
+                head = newNode;
+            }
+            else if(n > length+1 || n<1){//无效位置
+                cout<<"invalid position"<<endl;
+                delete newNode;
+            }
+            else{
+                LinkNode* temp = head;
+                for (int i = 1;i <n-1;i++){
+                    temp = temp->Next;
+                }
+                newNode->Next = temp->Next;
+                temp->Next = newNode;
+                
+            }
+        }
+        //删除节点
+        void Delete(int n){
+            int length = len();
+            if (n == 1){
+                head = head->Next;
+            }
+            else if(n < 1 || n>length){
+                cout<<"invalid position"<<endl;
+            }
+            else{
+                LinkNode* temp = head;
+                for (int i = 1;i <n-1;i++){
+                    temp = temp->Next;
+                }      
+                temp->Next = temp->Next->Next;  
+            }
+        }
+        //搜索节点
+        int Search(int val){ 
+            LinkNode* temp = head;
+            int number = 0;
+            while (temp != nullptr)
+            {
+                if (temp->data == val){
+                    return number;
+                }
+                number++;
+                temp = temp->Next;
+            }
+            return -1;
+            
         }
 };
 
@@ -75,12 +140,13 @@ int main() {
         linklist.append(val);  // 尾插法
     }
 
-    cout << "尾插法链表: \n";
     linklist.printList();
-
-
-
-
+    cout << "insert 6\n";
+    linklist.Insert(6,6);
+    linklist.printList();
+    cout << "delete 3\n";
+    linklist.Delete(3);
+    linklist.printList();
 
     printf("Press Enter to exit...\n");
     getchar();  // 等待用户输入
